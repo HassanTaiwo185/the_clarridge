@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
+from django.core.validators import FileExtensionValidator
+
 
 
 class Article(models.Model):
@@ -24,6 +26,8 @@ class Article(models.Model):
 
     pdf_file = models.FileField(
         upload_to='articles/pdfs/',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf'])],
+
     )
 
     date_written = models.DateField(
