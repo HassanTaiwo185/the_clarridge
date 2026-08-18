@@ -6,3 +6,11 @@ db.sqlite3
 *.log
 .DS_Store
 the_clarridge/
+
+# uploaded/generated media — never commit user uploads or test artifacts
+**/passport_photos/
+**/cv_transcripts/
+**/photos/
+**/article_covers/
+**/pdfs/
+**/covers/

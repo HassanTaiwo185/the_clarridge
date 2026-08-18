@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'users',
     'articles',  
     'programmes',
+     'collegium',
+     'applications',
+
 ]
 
 MIDDLEWARE = [
@@ -162,3 +165,9 @@ EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND"
 )
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+
+import sys
+
+if 'test' in sys.argv:
+    import tempfile
+    MEDIA_ROOT = tempfile.mkdtemp()
