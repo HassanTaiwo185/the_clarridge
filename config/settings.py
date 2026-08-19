@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     'programmes',
      'collegium',
      'applications',
+     'testimonials',
+     'calendar_app',
+     'contact',
+
 
 ]
 
@@ -171,3 +175,6 @@ import sys
 if 'test' in sys.argv:
     import tempfile
     MEDIA_ROOT = tempfile.mkdtemp()
+
+
+CONTACT_FORM_RECIPIENT = os.environ.get("CONTACT_FORM_RECIPIENT", "hello@theclarridge.org")
