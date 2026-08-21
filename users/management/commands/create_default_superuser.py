@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
+from users.models import Profile
+from datetime import date
 import os
 
 
@@ -19,9 +21,15 @@ class Command(BaseCommand):
             self.stderr.write("Missing DJANGO_SUPERUSER_USERNAME/EMAIL/PASSWORD env vars.")
             return
 
-        User.objects.create_superuser(
+        user = User.objects.create_superuser(
             username=username,
             email=email,
             password=password,
         )
-        self.stdout.write(f"Superuser '{email}' created.")
+
+        Profile.objects.get_or_create(
+            user=user,
+            defaults={"phone_number": "0000000000", "date_of_birth": date(2000, 1, 1)},
+        )
+
+        self.stdout.write(f"Superuser '{email}' created with profile.")

@@ -16,9 +16,17 @@ from .serializers import (
     ApproveUserSerializer,
     PromoteAdminSerializer,
     ChangePasswordSerializer,
-     LogoutSerializer
+     LogoutSerializer,
+     AllUsersSerializer
    
 )
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 # ---------------------------------------------------------
@@ -166,3 +174,9 @@ class LogoutView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'message': 'Logged out successfully.'}, status=status.HTTP_200_OK)
+    
+class AllUsersView(generics.ListAPIView):
+    """Superuser-only: list every user (active and inactive) for management."""
+    serializer_class = AllUsersSerializer
+    permission_classes = [IsSuperUser]
+    queryset = Profile.objects.select_related('user').all()

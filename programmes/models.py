@@ -17,10 +17,10 @@ class Programme(models.Model):
         default=Status.UPCOMING,
     )
 
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
 
-    cover_image = models.ImageField(upload_to='programmes/covers/')
+    cover_image = models.ImageField(upload_to='programmes/covers/', null=True, blank=True)
 
     description = models.TextField(blank=True)
 

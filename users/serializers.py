@@ -3,6 +3,9 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.exceptions import AuthenticationFailed
 
 from .models import Profile
 from .otp import (
@@ -21,7 +24,6 @@ from .otp import (
 # ---------------------------------------------------------
 # Registration
 # ---------------------------------------------------------
-
 class RegisterSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -32,8 +34,17 @@ class RegisterSerializer(serializers.Serializer):
     date_of_birth = serializers.DateField()
 
     def validate_email(self, value):
-        if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("An account with this email already exists.")
+        existing_user = User.objects.filter(email=value).first()
+        if existing_user:
+            if existing_user.is_active:
+                raise serializers.ValidationError(
+                    "An account with this email already exists. Please log in instead."
+                )
+            else:
+                raise serializers.ValidationError(
+                    "You've already registered and verified this email. "
+                    "Your account is pending admin approval — please wait to be approved before logging in."
+                )
         return value
 
     def validate(self, attrs):
@@ -44,17 +55,17 @@ class RegisterSerializer(serializers.Serializer):
         return attrs
 
     def create(self, validated_data):
-      email = validated_data['email']
-      validated_data.pop('confirm_password')
+        email = validated_data['email']
+        validated_data.pop('confirm_password')
 
-    # DateField gives us a real `date` object — convert to string so it's JSON-safe for Redis
-      validated_data['date_of_birth'] = validated_data['date_of_birth'].isoformat()
+        # DateField gives us a real `date` object — convert to string so it's JSON-safe for Redis
+        validated_data['date_of_birth'] = validated_data['date_of_birth'].isoformat()
 
-      otp = generate_otp(email)
-      stash_pending_registration(email, otp, validated_data)
-      send_otp_email(email, otp)
+        otp = generate_otp(email)
+        stash_pending_registration(email, otp, validated_data)
+        send_otp_email(email, otp)
 
-      return {'email': email}
+        return {'email': email}
 
 
 # ---------------------------------------------------------
@@ -289,3 +300,56 @@ class LogoutSerializer(serializers.Serializer):
     def save(self):
         token = self.context['token']
         token.blacklist()
+
+
+
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'username'
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['is_staff'] = user.is_staff
+        token['is_superuser'] = user.is_superuser
+        token['email'] = user.email
+        return token
+
+    def validate(self, attrs):
+        email = attrs.get("username")
+        password = attrs.get("password")
+        # ... rest unchanged
+
+        try:
+            user_obj = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise AuthenticationFailed("Incorrect email or password.")
+
+        if not user_obj.check_password(password):
+            raise AuthenticationFailed("Incorrect email or password.")
+
+        if not user_obj.is_active:
+            raise AuthenticationFailed(
+                "Your account has not been activated yet. Please wait for admin approval."
+            )
+
+        # credentials correct and account active — proceed with normal token generation
+        return super().validate(attrs)
+    
+class AllUsersSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='user.id', read_only=True)
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
+    is_active = serializers.BooleanField(source='user.is_active', read_only=True)
+    is_staff = serializers.BooleanField(source='user.is_staff', read_only=True)
+    date_joined = serializers.DateTimeField(source='user.date_joined', read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = [
+            'id', 'first_name', 'last_name', 'email',
+            'is_active', 'is_staff', 'date_joined',
+            'phone_number', 'date_of_birth',
+        ]

@@ -12,7 +12,9 @@ from .views import (
     ApproveUserView,
     PromoteAdminView,
     ChangePasswordView,
-    LogoutView
+    LogoutView,
+    AllUsersView
+
 
 )
 
@@ -23,12 +25,11 @@ urlpatterns = [
     path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
     path('me/', GetUserView.as_view(), name='get-user'),
     path('me/update/', UpdateUserView.as_view(), name='update-user'),
-    path('login/', TokenObtainPairView.as_view(), name='login'),
-    path('login/refresh/', TokenRefreshView.as_view(), name='login-refresh'),
     path('admin/pending-users/', PendingUsersView.as_view(), name='pending-users'),
     path('admin/approve-user/', ApproveUserView.as_view(), name='approve-user'),
     path('admin/promote-admin/', PromoteAdminView.as_view(), name='promote-admin'),
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('admin/all-users/', AllUsersView.as_view(), name='all-users'),
 
 ]
