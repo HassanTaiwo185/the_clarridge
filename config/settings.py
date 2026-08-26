@@ -199,12 +199,11 @@ if 'test' in sys.argv:
     MEDIA_ROOT = tempfile.mkdtemp()
 
 
-CONTACT_FORM_RECIPIENT = os.environ.get("CONTACT_FORM_RECIPIENT", "hello@theclarridge.org")
+CONTACT_FORM_RECIPIENT = os.environ.get("CONTACT_FORM_RECIPIENT")
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+CORS_ALLOWED_ORIGINS = os.environ.get(
+    "CORS_ALLOWED_ORIGINS"
+).split(",")
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
