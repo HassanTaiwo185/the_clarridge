@@ -177,7 +177,7 @@ class GetUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'email', 'is_active', 'phone_number', 'date_of_birth', 'passport_photo']
+        fields = ['first_name', 'last_name', 'email', 'is_active', 'phone_number', 'date_of_birth', 'passport_photo', 'bio', 'office']
 
 
 # ---------------------------------------------------------
@@ -190,7 +190,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'phone_number', 'date_of_birth', 'passport_photo']
+        fields = ['first_name', 'last_name', 'phone_number', 'date_of_birth', 'passport_photo', 'office', 'bio']
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', {})
