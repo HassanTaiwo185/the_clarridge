@@ -7,6 +7,7 @@ class Programme(models.Model):
         UPCOMING = 'upcoming', 'Upcoming'
         OPEN = 'open', 'Open'
         COMPLETED = 'completed', 'Completed'
+        
 
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=280, unique=True, blank=True)

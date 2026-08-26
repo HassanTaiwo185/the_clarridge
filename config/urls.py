@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/token/', CustomTokenObtainPairView.as_view(), name='get_token'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('api/opportunities/', include('opportunities.urls')),
+    path('api/observatory/', include('observatory.urls')),
 ]
 
 if settings.DEBUG:

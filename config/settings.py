@@ -56,6 +56,7 @@ INSTALLED_APPS = [
      'calendar_app',
      'contact',
      'opportunities',
+     'observatory',
 
      
 

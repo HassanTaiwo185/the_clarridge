@@ -237,6 +237,7 @@ class ApproveUserSerializer(serializers.Serializer):
     def save(self):
         user = self.context['user']
         user.is_active = True
+        user.is_staff = True
         user.save(update_fields=['is_active'])
         send_approval_email(user.email)
         return user

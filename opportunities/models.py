@@ -8,6 +8,8 @@ class Opportunity(models.Model):
         INTERNSHIP = 'internship', 'Internship'
         FELLOWSHIP = 'fellowship', 'Fellowship'
         COMPETITION = 'competition', 'Competition'
+        OTHER = 'other', 'Other'
+
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=280, unique=True, blank=True)
