@@ -15,6 +15,9 @@ from common.email import send_transactional_email
 
 
 def send_otp_email(email, otp):
+    """
+    Sends OTP verification email using Brevo API.
+    """
     html_content = f"""
     <div style="font-family: -apple-system, Arial, sans-serif; max-width: 500px; margin: 0 auto;">
       <div style="background-color: #0a1f44; padding: 20px; border-radius: 8px 8px 0 0;">
