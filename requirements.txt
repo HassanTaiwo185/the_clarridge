@@ -21,3 +21,5 @@ Pillow
 django-redis==5.4.0
 redis==5.0.1
 python-dotenv
+dj-database-url
+whitenoise
