@@ -5,5 +5,5 @@ from .models import CollegiumMember
 class CollegiumMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollegiumMember
-        fields = ['id', 'member_name', 'photo', 'school', 'field']
+        fields = ['id', 'member_name', 'photo', 'school', 'field','bio']
         read_only_fields = ['id']
