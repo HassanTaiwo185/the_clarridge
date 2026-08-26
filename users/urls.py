@@ -32,6 +32,6 @@ urlpatterns = [
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin/all-users/', AllUsersView.as_view(), name='all-users'),
-    path('team-members/', TeamMembersView.as_view(), name='team-members'),
+    
 
 ]

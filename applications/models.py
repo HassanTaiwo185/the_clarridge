@@ -21,6 +21,11 @@ class Application(models.Model):
     phone_number = models.CharField(max_length=20)
     date_of_birth = models.DateField()
 
+    statement_of_purpose = models.TextField(
+    blank=True,
+    help_text="Applicant's statement of purpose / motivation letter.",
+)
+
     passport_photo = models.ImageField(
         upload_to='applications/passport_photos/',
         validators=[
@@ -42,6 +47,8 @@ class Application(models.Model):
         choices=Status.choices,
         default=Status.PENDING,
     )
+
+    
 
     date_applied = models.DateTimeField(auto_now_add=True)
 

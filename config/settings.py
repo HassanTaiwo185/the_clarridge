@@ -57,6 +57,8 @@ INSTALLED_APPS = [
      'contact',
      'opportunities',
      'observatory',
+     'impact',
+     'team',
 
      
 

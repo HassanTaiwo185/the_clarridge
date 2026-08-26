@@ -35,6 +35,8 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('api/opportunities/', include('opportunities.urls')),
     path('api/observatory/', include('observatory.urls')),
+    path('api/impact/', include('impact.urls')),
+    path('api/team/', include('team.urls')),
 ]
 
 if settings.DEBUG:
