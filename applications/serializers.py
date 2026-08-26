@@ -15,6 +15,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'cv_transcript',
             'status',
             'date_applied',
+            'university', 'level', 'course_of_study',
         ]
         read_only_fields = ['id', 'date_applied']
 
@@ -31,4 +32,5 @@ class ApplicationCreateSerializer(serializers.ModelSerializer):
             'date_of_birth',
             'passport_photo',
             'cv_transcript',
+            'university', 'level', 'course_of_study',
         ]

@@ -48,6 +48,10 @@ class Application(models.Model):
         default=Status.PENDING,
     )
 
+    university = models.CharField(max_length=255, blank=True)
+    level = models.CharField(max_length=50, blank=True, help_text="e.g. 300 Level, Year 3")
+    course_of_study = models.CharField(max_length=255, blank=True)
+
     
 
     date_applied = models.DateTimeField(auto_now_add=True)
