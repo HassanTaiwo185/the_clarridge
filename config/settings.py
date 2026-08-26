@@ -207,3 +207,6 @@ CORS_ALLOWED_ORIGINS = os.environ.get(
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+BREVO_API_KEY = os.environ.get("BREVO_API_KEY")
