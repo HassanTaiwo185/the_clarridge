@@ -17,7 +17,8 @@ from .serializers import (
     PromoteAdminSerializer,
     ChangePasswordSerializer,
      LogoutSerializer,
-     AllUsersSerializer
+     AllUsersSerializer,
+     TeamMemberSerializer,
    
 )
 
@@ -180,3 +181,9 @@ class AllUsersView(generics.ListAPIView):
     serializer_class = AllUsersSerializer
     permission_classes = [IsSuperUser]
     queryset = Profile.objects.select_related('user').all()
+
+class TeamMembersView(generics.ListAPIView):
+    """Public: list all activated users as team members (name, email, photo only)."""
+    serializer_class = TeamMemberSerializer
+    permission_classes = [AllowAny]
+    queryset = Profile.objects.select_related('user').filter(user__is_active=True)

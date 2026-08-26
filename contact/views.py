@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -17,16 +17,15 @@ class ContactMessageView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
-        send_mail(
+
+        email = EmailMessage(
             subject=f"[Contact Form] {data['subject']}",
-            message=(
-                f"From: {data['name']} <{data['email']}>\n\n"
-                f"{data['message']}"
-            ),
+            body=f"From: {data['name']} <{data['email']}>\n\n{data['message']}",
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[settings.CONTACT_FORM_RECIPIENT],
+            to=[settings.CONTACT_FORM_RECIPIENT],
             reply_to=[data['email']],
         )
+        email.send()
 
         return Response(
             {'message': 'Your message has been sent. We will get back to you soon.'},

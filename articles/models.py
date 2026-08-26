@@ -4,12 +4,11 @@ from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
 
 
-
 class Article(models.Model):
     uploaded_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='articles',  # user.articles.all() -> everything they uploaded
+        related_name='articles',
     )
 
     title = models.CharField(max_length=255)
@@ -20,6 +19,18 @@ class Article(models.Model):
         help_text="The actual writer of the article — may differ from the person uploading it.",
     )
 
+    institution = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="e.g. Elizade University Faculty of Law",
+    )
+
+    page_count = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text="Number of pages in the PDF.",
+    )
+
     summary = models.TextField(
         help_text="Short description/abstract of the article."
     )
@@ -27,7 +38,6 @@ class Article(models.Model):
     pdf_file = models.FileField(
         upload_to='articles/pdfs/',
         validators=[FileExtensionValidator(allowed_extensions=['pdf'])],
-
     )
 
     date_written = models.DateField(

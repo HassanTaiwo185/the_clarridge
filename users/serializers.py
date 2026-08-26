@@ -354,3 +354,12 @@ class AllUsersSerializer(serializers.ModelSerializer):
             'is_active', 'is_staff', 'date_joined',
             'phone_number', 'date_of_birth',
         ]
+        
+class TeamMemberSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ['id', 'first_name', 'last_name', 'email', 'passport_photo']

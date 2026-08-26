@@ -4,23 +4,19 @@ from django.contrib.auth.models import User
 from .models import Article
 
 
+from rest_framework import serializers
+from .models import Article
+
+
 class ArticleSerializer(serializers.ModelSerializer):
-    uploaded_by = serializers.PrimaryKeyRelatedField(read_only=True)
     uploaded_by_username = serializers.CharField(source='uploaded_by.username', read_only=True)
 
     class Meta:
         model = Article
         fields = [
-            'id',
-            'title',
-            'slug',
-            'author_name',
-            'summary',
-            'pdf_file',
-            'date_written',
-            'date_posted',
-            'uploaded_by',
-            'uploaded_by_username',
+            'id', 'title', 'slug', 'author_name', 'institution', 'page_count',
+            'summary', 'pdf_file', 'date_written', 'date_posted',
+            'uploaded_by', 'uploaded_by_username',
         ]
         read_only_fields = ['id', 'slug', 'date_posted', 'uploaded_by']
 
