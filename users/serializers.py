@@ -362,4 +362,4 @@ class TeamMemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'first_name', 'last_name', 'email', 'passport_photo']
+        fields = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'office', 'bio', 'passport_photo']

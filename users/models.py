@@ -19,5 +19,8 @@ class Profile(models.Model):
 
     date_of_birth = models.DateField()
 
+    office = models.CharField(max_length=255, blank=True, help_text="e.g. Research & Publications")
+    bio = models.TextField(blank=True, help_text="Short bio shown on the public Team Members section.")
+
     def __str__(self):
         return self.user.username
