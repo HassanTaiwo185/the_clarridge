@@ -11,17 +11,21 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'email',
             'phone_number',
             'date_of_birth',
+            'statement_of_purpose',
             'passport_photo',
             'cv_transcript',
             'status',
             'date_applied',
-            'university', 'level', 'course_of_study', 'cgpa',
+            'university',
+            'level',
+            'course_of_study',
+            'cgpa',
         ]
         read_only_fields = ['id', 'date_applied']
 
 
 class ApplicationCreateSerializer(serializers.ModelSerializer):
-    """Public-facing: excludes `status`, so applicants can't set their own status."""
+    """Public-facing: excludes status so applicants can't set their own status."""
 
     class Meta:
         model = Application
@@ -30,7 +34,11 @@ class ApplicationCreateSerializer(serializers.ModelSerializer):
             'email',
             'phone_number',
             'date_of_birth',
+            'statement_of_purpose',
             'passport_photo',
             'cv_transcript',
-            'university', 'level', 'course_of_study','cgpa',
+            'university',
+            'level',
+            'course_of_study',
+            'cgpa',
         ]
