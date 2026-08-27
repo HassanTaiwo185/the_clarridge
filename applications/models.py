@@ -22,7 +22,7 @@ class Application(models.Model):
     date_of_birth = models.DateField()
 
     statement_of_purpose = models.FileField(
-        upload_to='statement_of_purpose',
+        upload_to='applications/statement_of_purpose',
         validators=[
             FileExtensionValidator(allowed_extensions=['pdf']),
             validate_file_size,
