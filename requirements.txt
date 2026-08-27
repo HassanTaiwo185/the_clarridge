@@ -24,3 +24,5 @@ python-dotenv
 dj-database-url
 whitenoise
 sib-api-v3-sdk
+cloudinary
+django-cloudinary-storage
