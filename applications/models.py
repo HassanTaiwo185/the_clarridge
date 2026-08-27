@@ -21,10 +21,13 @@ class Application(models.Model):
     phone_number = models.CharField(max_length=20)
     date_of_birth = models.DateField()
 
-    statement_of_purpose = models.TextField(
-    blank=True,
-    help_text="Applicant's statement of purpose / motivation letter.",
-)
+    statement_of_purpose = models.FileField(
+        upload_to='statement_of_purpose',
+        validators=[
+            FileExtensionValidator(allowed_extensions=['pdf']),
+            validate_file_size,
+        ],
+    )
 
     passport_photo = models.ImageField(
         upload_to='applications/passport_photos/',
@@ -50,6 +53,7 @@ class Application(models.Model):
 
     university = models.CharField(max_length=255, blank=True)
     level = models.CharField(max_length=50, blank=True, help_text="e.g. 300 Level, Year 3")
+    cgpa = models.CharField(max_length=255, blank=True)
     course_of_study = models.CharField(max_length=255, blank=True)
 
     
