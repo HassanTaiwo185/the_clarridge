@@ -1,6 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
+
 
 
 def validate_file_size(value):
@@ -23,10 +25,12 @@ class Application(models.Model):
 
     statement_of_purpose = models.FileField(
         upload_to='applications/statement_of_purpose',
+        storage=RawMediaCloudinaryStorage(),
         validators=[
             FileExtensionValidator(allowed_extensions=['pdf']),
             validate_file_size,
         ],
+        
     )
 
     passport_photo = models.ImageField(
@@ -39,6 +43,7 @@ class Application(models.Model):
 
     cv_transcript = models.FileField(
         upload_to='applications/cv_transcripts/',
+        storage=RawMediaCloudinaryStorage(),
         validators=[
             FileExtensionValidator(allowed_extensions=['pdf']),
             validate_file_size,
