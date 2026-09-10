@@ -24,31 +24,33 @@ class Application(models.Model):
     date_of_birth = models.DateField()
 
     statement_of_purpose = models.FileField(
-        upload_to='applications/statement_of_purpose',
-        storage=RawMediaCloudinaryStorage(),
-        validators=[
-            FileExtensionValidator(allowed_extensions=['pdf']),
-            validate_file_size,
-        ],
-        
-    )
+    upload_to='applications/statement_of_purpose',
+    storage=RawMediaCloudinaryStorage(),
+    max_length=500,
+    validators=[
+        FileExtensionValidator(allowed_extensions=['pdf']),
+        validate_file_size,
+    ],
+)
 
     passport_photo = models.ImageField(
-        upload_to='applications/passport_photos/',
-        validators=[
-            FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
-            validate_file_size,
-        ],
-    )
+    upload_to='applications/passport_photos/',
+    max_length=500,
+    validators=[
+        FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
+        validate_file_size,
+    ],
+)
 
     cv_transcript = models.FileField(
-        upload_to='applications/cv_transcripts/',
-        storage=RawMediaCloudinaryStorage(),
-        validators=[
-            FileExtensionValidator(allowed_extensions=['pdf']),
-            validate_file_size,
-        ],
-    )
+    upload_to='applications/cv_transcripts/',
+    storage=RawMediaCloudinaryStorage(),
+    max_length=500,
+    validators=[
+        FileExtensionValidator(allowed_extensions=['pdf']),
+        validate_file_size,
+    ],
+)
 
     status = models.CharField(
         max_length=15,
